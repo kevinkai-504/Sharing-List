@@ -1,0 +1,11 @@
+flask
+flask_jwt_extended
+Flask-Smorest
+Flask-SQLAlchemy
+passlib
+marshmallow
+python-dotenv
+flask_cors
+
+# load .env
+psycopg2 
