@@ -49,9 +49,14 @@ class Tag(MethodView):
         check_guest(sub)  #guest
         if tag.user_id != int(sub):
             return jsonify({"message":"You are not the user."}), 401
-        db.session.delete(tag)
-        db.session.commit()
-        return jsonify({"message": "Tag Item deleted!"}), 200
+        if not tag.learn:
+            db.session.delete(tag)
+            db.session.commit()
+            return jsonify({"message": "Tag Item deleted!"}), 200
+        abort(
+            400,
+            message="Tag is linking with learn item."
+        )
 
 
 @blp.route("/tag")
