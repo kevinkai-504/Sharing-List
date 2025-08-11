@@ -9,3 +9,6 @@ flask_cors
 
 # load .env
 psycopg2 
+
+# Docker
+gunicorn

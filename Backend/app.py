@@ -14,7 +14,6 @@ from blocklist import BLOCKLIST
 
 # .env
 import os
-from dotenv import load_dotenv
 
 
 
@@ -23,12 +22,14 @@ from dotenv import load_dotenv
 def create_app():
     app = Flask(__name__)
 
-    load_dotenv()   #0731新增匯入.env以處理os.getenv
+    # load_dotenv()   #0731新增匯入.env以處理os.getenv  #0811取消因為改由docker匯入環境
 
-    CORS(app)
+
+    CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}})
     app.config["API_TITLE"] = "Learns REST API"
     app.config["API_VERSION"] = "v1"
     app.config["OPENAPI_VERSION"] = "3.0.2"
+    
     
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
