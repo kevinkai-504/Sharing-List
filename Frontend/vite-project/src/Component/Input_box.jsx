@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Data_Format from "../config";
+import Data_Format from '../Config'
 
 export function Input_Box({item, updateCall, type, attr, put, accesstoken}) {
 

@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { LearnList_Input } from '../Component/LearnList_Input'
-import Data_Format from '../config'
+import Data_Format from '../Config'
 import { Item_List } from '../Component/Item_List'
 
 import { Navbar } from '../Component/Navbar'

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Data_Format from "../config";
+import Data_Format from '../Config'
 
 export function TagList_Input({updateCall, type, accesstoken}) {
 
