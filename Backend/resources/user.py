@@ -2,7 +2,7 @@ from flask import jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from db import db
-from models import UserModel, KeyModel
+from models import UserModel
 from schemas import UserSchema, UserFirstTimeSchema
 
 # 使用者登入
@@ -17,6 +17,9 @@ from flask_jwt_extended import (
     jwt_required,
 )
 
+#0812授權碼改為.env
+import os
+
 
 
 blp = Blueprint("Users", __name__, description="Operations on users")
@@ -29,7 +32,7 @@ blp = Blueprint("Users", __name__, description="Operations on users")
 class UserRegister(MethodView):
     @blp.arguments(UserFirstTimeSchema)
     def post(self, user_data):
-        if not pbkdf2_sha256.verify(user_data["key"], KeyModel.query.get(1).password):
+        if user_data["key"] != os.getenv("register_key"):
             return jsonify({"message":"Invalid!"}), 401
         if UserModel.query.filter(UserModel.username == user_data["username"]).first():
             return jsonify({"message":"A user with that username already exists."}), 409
@@ -110,13 +113,5 @@ class UserList(MethodView):
         return user
     
 
-# 在此路由新增敏感密碼(ex:授權碼)，並日後透過讀取keys資料庫來驗證(使用完請刪除)
-@blp.route("/key")
-class AdminKey(MethodView):
-    def post(self):
-        key = KeyModel(password=pbkdf2_sha256.hash("123"))
-        db.session.add(key)
-        db.session.commit()
-        return {"message":"Success!"}
 
 
