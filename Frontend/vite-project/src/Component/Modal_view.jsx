@@ -1,7 +1,7 @@
 
 // Modal外觀直接取自document: https://react-bootstrap.netlify.app/docs/components/modal/
 import { useState, useEffect} from 'react';
-import Data_Format from '../config';
+import Data_Format from '../Config'
 import Modal from 'react-bootstrap/Modal';
 import { TagList_Input } from './TagList_Input';
 import { Item_List } from './Item_List';

@@ -1,5 +1,5 @@
 import { useState} from "react";
-import Data_Format from "../config"
+import Data_Format from '../Config'
 
 export function User() {
     const url_default = Data_Format["url_default"]

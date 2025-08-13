@@ -24,8 +24,9 @@ def create_app():
 
     # load_dotenv()   #0731新增匯入.env以處理os.getenv  #0811取消因為改由docker匯入環境
 
+    CORS_ORIGINS = os.environ.get('CORS_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173').split(',')
 
-    CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}})
+    CORS(app, resources={r"/*": {"origins": CORS_ORIGINS}})
     app.config["API_TITLE"] = "Learns REST API"
     app.config["API_VERSION"] = "v1"
     app.config["OPENAPI_VERSION"] = "3.0.2"

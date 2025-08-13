@@ -1,4 +1,4 @@
-import Data_Format from "../config"
+import Data_Format from '../Config'
 
 export function Delete_Button({item, updateCall, type, put, accesstoken}) {
     const url_default = Data_Format["url_default"]
