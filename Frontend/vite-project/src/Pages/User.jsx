@@ -104,8 +104,8 @@ export function User() {
                             <div className="card-body">
                                 <form onSubmit={!isLogin? onLogin : onLogout}>
                                         <div className="input-group">
-                                            <input  onChange={(e) => setUserame(e.target.value)}  type={isSuccess ? "hidden":"text"} required className="form-control learn" placeholder="name:使用者名稱 (訪客帳號=Joe)" />
-                                            <input  onChange={(e) => setPassword(e.target.value)}  type={isSuccess ? "hidden":"text"} required className="form-control learn" placeholder="password:密碼 (訪客密碼=test)"/>
+                                            <input  onChange={(e) => setUserame(e.target.value)}  type={isSuccess ? "hidden":"text"} required className="form-control learn" placeholder="name:使用者名稱 (訪客帳號=XXX)" />
+                                            <input  onChange={(e) => setPassword(e.target.value)}  type={isSuccess ? "hidden":"text"} required className="form-control learn" placeholder="password:密碼 (訪客密碼=XXXXX)"/>
                                             {
                                                 isRegister && <input onChange={(e) => setKey(e.target.value)}  type={isSuccess ? "hidden":"text"} required className="form-control learn" placeholder="key:授權碼"/>
                                             }
