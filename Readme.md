@@ -4,8 +4,8 @@
 
 
 開發者起始步驟:
-    0. git clone https://github.com/kevinkai-504/Sharing-List.git  >  開啟docker  >  cd到根目錄
+    0. git init > git clone https://github.com/kevinkai-504/Sharing-List.git   >  cd到根目錄
     1. 將Backend>.env.example改成.env，並在裡面按指示輸入必須的環境變數
     2. (選擇性):由Backend>config.py可以自訂權限以決定管理者以及訪客
-    3. 程式運行方法: 直接運行docker-compose up --build
+    3. 程式運行方法: (確認docker應用程式開啟)直接運行docker-compose up --build
     4. 前往本地網站: http://localhost:5173/?#
