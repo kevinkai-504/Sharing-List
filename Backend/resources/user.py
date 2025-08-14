@@ -32,7 +32,7 @@ blp = Blueprint("Users", __name__, description="Operations on users")
 class UserRegister(MethodView):
     @blp.arguments(UserFirstTimeSchema)
     def post(self, user_data):
-        if user_data["key"] != os.getenv("register_key"):
+        if user_data["key"] != os.getenv("REGISTER_KEY"):
             return jsonify({"message":"Invalid!"}), 401
         if UserModel.query.filter(UserModel.username == user_data["username"]).first():
             return jsonify({"message":"A user with that username already exists."}), 409

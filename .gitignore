@@ -3,7 +3,6 @@
 __pycache__/
 .env
 
-# --- Database(自己測試的話請拿掉data.db，否則每次docker運行都會刪除掉資料庫) ---
 data.db
 
 # --- Frontend ---
