@@ -12,3 +12,6 @@ psycopg2
 
 # Docker
 gunicorn
+
+#pytest
+pytest
