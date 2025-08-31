@@ -4,7 +4,7 @@ Flask-Smorest
 Flask-SQLAlchemy
 passlib
 marshmallow
-python-dotenv
+# python-dotenv
 flask_cors
 
 # load .env
