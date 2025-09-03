@@ -1,4 +1,7 @@
 services:
+  db:
+    image: postgres:15-alpine
+    restart: always
   backend:
     build: ./Backend
     env_file:
@@ -7,6 +10,8 @@ services:
       - "5000:5000"
     volumes:
       - ./Backend:/app
+    depends_on:
+      - db
 
   frontend:
     build: ./Frontend
