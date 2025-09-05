@@ -13,7 +13,7 @@ from flask_jwt_extended import (
 )
 from config import guest, guest_mode
 def check_guest(sub):
-    if guest == sub and guest_mode is True:
+    if sub in guest and guest_mode is True:
         abort(401, message="You are a guest!")
 
 
