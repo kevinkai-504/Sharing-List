@@ -15,6 +15,9 @@ from blocklist import BLOCKLIST
 # .env
 import os
 
+# 資料庫部屬用
+from flask_migrate import Migrate
+
 
 
 
@@ -38,6 +41,7 @@ def create_app():
 
     db.init_app(app)
     api = Api(app)
+    migrate = Migrate(app, db)  #資料庫部屬用
 
     # 使用者登入
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
@@ -97,11 +101,11 @@ def create_app():
             ),
             401,
         )
+    # 因為改用Migration所以不用
+    # with app.app_context():
+    #     import models
 
-    with app.app_context():
-        import models
-
-        db.create_all()
+    #     db.create_all()
 
     api.register_blueprint(LearnBlueprint)
     api.register_blueprint(TagBlueprint)

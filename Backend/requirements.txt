@@ -13,5 +13,7 @@ psycopg2
 # Docker
 gunicorn
 
-#pytest
-pytest
+# PostgreSQL
+psycopg[binary]
+alembic
+flask-migrate

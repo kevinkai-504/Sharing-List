@@ -1,4 +1,16 @@
 services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    env_file:
+      - ./Backend/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   backend:
     build: ./Backend
     env_file:
@@ -7,6 +19,9 @@ services:
       - "5000:5000"
     volumes:
       - ./Backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
 
   frontend:
     build: ./Frontend
@@ -15,3 +30,6 @@ services:
     volumes:
      - ./Frontend/vite-project:/app
      - /app/node_modules
+
+volumes:
+  postgres_data:
