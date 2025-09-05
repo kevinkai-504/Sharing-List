@@ -3,6 +3,6 @@ export const Data_Format = {
     "learn": ["name", "note", "status", "build_time"],
     "learnFtag": ["name", "note", "status", "build_time"],
     "tag":["id", "name"],
-    "url_default":"http://127.0.0.1:5000"
+    "url_default":"https://sharing-list.onrender.com"
 }
 export default Data_Format
