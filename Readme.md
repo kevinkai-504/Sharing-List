@@ -13,7 +13,7 @@
     3. (選擇性):由Backend>config.py可以自訂權限以決定管理者以及訪客
 
     4. 程式運行方法: 根目錄運行docker-compose up --build
-    5. 前往本地網站: http://localhost:5173/
+    5. 前往本地網站: http://localhost:5173
 
 開發者步驟(部屬用):
     0. (以Render作為部屬網站)
