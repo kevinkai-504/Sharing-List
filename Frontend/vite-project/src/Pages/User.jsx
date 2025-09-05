@@ -22,7 +22,8 @@ export function User() {
 
 
 
-    const onLogin = async () => {
+    const onLogin = async (e) => {
+        e.preventDefault()
         const data = isRegister ? {
             "username":username,
             "password":password,
@@ -58,7 +59,8 @@ export function User() {
         setIsOpenAlert(true)
     }
     
-    const onLogout = async () => {
+    const onLogout = async (e) => {
+        e.preventDefault()
         const options = {
             method: "POST",
             headers: {
