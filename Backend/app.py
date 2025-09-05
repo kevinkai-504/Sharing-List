@@ -37,7 +37,7 @@ def create_app():
     
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["PROPAGATE_EXCEPTIONS"] = True
+    app.config["PROPAGATE_EXCEPTIONS"] = False
 
     db.init_app(app)
     api = Api(app)

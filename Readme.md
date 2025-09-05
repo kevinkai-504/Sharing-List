@@ -10,7 +10,7 @@
 
     2. 進Backend>.env.example改成.env，並確認授權碼以利後續帳號註冊(可自訂)
 
-    3. (選擇性):由Backend>config.py可以自訂權限以決定管理者以及訪客
+    3. (選擇性):由Backend>config.py可以自訂權限以決定管理者以及訪客、進Backend>app.py將app.config["PROPAGATE_EXCEPTIONS"]改為True方便看到較詳細錯誤訊息
 
     4. 程式運行方法: 根目錄運行docker-compose up --build
     5. 前往本地網站: http://localhost:5173
