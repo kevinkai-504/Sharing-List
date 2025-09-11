@@ -1,6 +1,6 @@
 2025/9/5:已部屬(https://sharing-list-frontend.onrender.com/)
 
-下期預計新增CI/CD、增加使用範例、增加參考資源
+預計9月底前新增CI/CD(Pytest、Makefile、Github Action)、增加使用範例(訪客帳號開放)、增加參考資源(於訪客帳號登入頁面說明)
 --------------------
 
 開發者步驟(本地測試):
