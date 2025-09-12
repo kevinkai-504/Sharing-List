@@ -1,10 +1,10 @@
-import requests
 import pytest
+from config import SESSION, APP_URL, ADMIN_ACCOUNT, ADMIN_PASSWORD
 
 @pytest.fixture(scope="session")
 def login_as_admin():
-    payload = {"username":"Kevin", "password":"test"}
-    response = requests.post("http://127.0.0.1:5000/login", json=payload)
+    payload = {"username":ADMIN_ACCOUNT, "password":ADMIN_PASSWORD}
+    response = SESSION.post(f"{APP_URL}/login", json=payload)
     assert response.ok
 
     access_token = response.json()["access_token"]
