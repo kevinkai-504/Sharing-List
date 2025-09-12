@@ -1,0 +1,8 @@
+2025-09-12 08:09:31 INFO  24    conftest.py          login_as_admin()
+2025-09-12 08:09:31 INFO  24    conftest.py          Login in payload:{'username': 'Kevin', 'password': '********'}
+2025-09-12 08:09:31 DEBUG 24    connectionpool.py    Starting new HTTP connection (1): 127.0.0.1:5000
+2025-09-12 08:09:31 DEBUG 24    connectionpool.py    http://127.0.0.1:5000 "POST /login HTTP/1.1" 201 345
+2025-09-12 08:09:31 INFO  24    test_learn.py        get_all_learns()
+2025-09-12 08:09:31 DEBUG 24    connectionpool.py    Resetting dropped connection: 127.0.0.1
+2025-09-12 08:09:31 DEBUG 24    connectionpool.py    http://127.0.0.1:5000 "GET /learn HTTP/1.1" 200 103
+2025-09-12 08:09:31 DEBUG 24    test_learn.py        [{'build_time': '2025/09/09 12:42:50', 'id': 1, 'name': '123', 'note': '', 'status': 'A', 'tag': [], 'user_id': 1}]

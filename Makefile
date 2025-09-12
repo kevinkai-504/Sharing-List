@@ -4,7 +4,7 @@ build:
 
 .PHONY: test
 test:
-		docker-compose exec backend sh -c "export PYTHONPATH=\"/app\" && pytest /app/tests/learn/test_learn.py"
+		docker-compose exec backend sh -c "export PYTHONPATH=\"/app\" && pytest --html=./reports/reoprt.html --self-contained-html /app/tests"
 
 .PHONY: down
 down:
