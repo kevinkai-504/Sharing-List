@@ -5,7 +5,7 @@ __pycache__/
 
 data.db
 production.env
-
+Backend/reports/
 # --- Frontend ---
 node_modules/
 
