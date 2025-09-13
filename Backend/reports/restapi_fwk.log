@@ -1,8 +1,22 @@
-2025-09-12 08:09:31 INFO  24    conftest.py          login_as_admin()
-2025-09-12 08:09:31 INFO  24    conftest.py          Login in payload:{'username': 'Kevin', 'password': '********'}
-2025-09-12 08:09:31 DEBUG 24    connectionpool.py    Starting new HTTP connection (1): 127.0.0.1:5000
-2025-09-12 08:09:31 DEBUG 24    connectionpool.py    http://127.0.0.1:5000 "POST /login HTTP/1.1" 201 345
-2025-09-12 08:09:31 INFO  24    test_learn.py        get_all_learns()
-2025-09-12 08:09:31 DEBUG 24    connectionpool.py    Resetting dropped connection: 127.0.0.1
-2025-09-12 08:09:31 DEBUG 24    connectionpool.py    http://127.0.0.1:5000 "GET /learn HTTP/1.1" 200 103
-2025-09-12 08:09:31 DEBUG 24    test_learn.py        [{'build_time': '2025/09/09 12:42:50', 'id': 1, 'name': '123', 'note': '', 'status': 'A', 'tag': [], 'user_id': 1}]
+2025-09-13 10:53:11 INFO  48    conftest.py          login_as_admin_token
+2025-09-13 10:53:11 INFO  48    user.py              login
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    Starting new HTTP connection (1): 127.0.0.1:5000
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    http://127.0.0.1:5000 "POST /login HTTP/1.1" 201 345
+2025-09-13 10:53:11 INFO  48    test_learn.py        get_all_learns
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    Resetting dropped connection: 127.0.0.1
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    http://127.0.0.1:5000 "GET /learn HTTP/1.1" 200 103
+2025-09-13 10:53:11 DEBUG 48    test_learn.py        [{'build_time': '2025/09/09 12:42:50', 'id': 1, 'name': '123', 'note': '', 'status': 'A', 'tag': [], 'user_id': 1}]
+2025-09-13 10:53:11 INFO  48    test_user.py         logout
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    Resetting dropped connection: 127.0.0.1
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    http://127.0.0.1:5000 "POST /logout HTTP/1.1" 200 39
+2025-09-13 10:53:11 INFO  48    test_user.py         register
+2025-09-13 10:53:11 INFO  48    test_user.py         register-Test if same account can not be created.
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    Resetting dropped connection: 127.0.0.1
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    http://127.0.0.1:5000 "POST /register HTTP/1.1" 409 56
+2025-09-13 10:53:11 INFO  48    test_user.py         register-Test if wrong key can prevent from creating new account.
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    Resetting dropped connection: 127.0.0.1
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    http://127.0.0.1:5000 "POST /register HTTP/1.1" 401 23
+2025-09-13 10:53:11 INFO  48    test_user.py         register-Test if can create an account.
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    Resetting dropped connection: 127.0.0.1
+2025-09-13 10:53:11 DEBUG 48    connectionpool.py    http://127.0.0.1:5000 "POST /register HTTP/1.1" 201 41
+2025-09-13 10:53:11 DEBUG 48    test_user.py         {'message': 'User successfully created!'}

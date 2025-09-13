@@ -1,11 +1,14 @@
 import pytest
-from config import SESSION, APP_URL, ADMIN_ACCOUNT, ADMIN_PASSWORD, LOG
+from config import APP_URL, LOG
+from lib.user import User
+import os
+
 @pytest.fixture(scope="session")
-def login_as_admin():
-    LOG.info("login_as_admin()")
-    payload = {"username":ADMIN_ACCOUNT, "password":ADMIN_PASSWORD}
-    LOG.info(f"Login in payload:{payload}")
-    response = SESSION.post(f"{APP_URL}/login", json=payload)
+def login_as_admin_token():
+    LOG.info("login_as_admin_token")
+    ADMIN_ACCOUNT = str(os.getenv("ADMIN_ACCOUNT"))
+    ADMIN_PASSWORD = str(os.getenv("ADMIN_PASSWORD"))
+    response = User().login(APP_URL, ADMIN_ACCOUNT, ADMIN_PASSWORD)
     assert response.ok
 
     access_token = response.json()["access_token"]

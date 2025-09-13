@@ -1,5 +1,5 @@
 from lib.utils import build_request_headers
-from config import SESSION
+from config import SESSION, LOG
 
 class Learn:
     def __init__(self):
