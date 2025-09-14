@@ -10,14 +10,10 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt,
 )
-from config import guest, guest_mode
-def check_guest(sub):
-    if guest == sub and guest_mode is True:
-        abort(401, message="You are a guest!")
+from lib.utils import check_guest
 
 
 blp = Blueprint("tags", __name__, description="Control tags")
-
 @blp.route("/tag/<int:tag_id>")
 class Tag(MethodView):
     @jwt_required()

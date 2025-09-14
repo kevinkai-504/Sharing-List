@@ -93,7 +93,7 @@ class User(MethodView):
     @jwt_required()
     def delete(self, user_id):
         sub = get_jwt()['sub']
-        if sub != admin:
+        if sub not in admin:
             return jsonify({"message":"You are not the administrator."}), 401
         user = UserModel.query.get_or_404(user_id)
         db.session.delete(user)
@@ -107,7 +107,7 @@ class UserList(MethodView):
     @blp.response(200, UserSchema(many=True))
     def get(self):
         sub = get_jwt()['sub']
-        if sub != admin:
+        if sub not in admin:
             return jsonify({"message":"You are not the user."}), 401
         user = UserModel.query.all()
         return user

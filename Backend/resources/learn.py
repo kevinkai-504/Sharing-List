@@ -11,20 +11,11 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt,
 )
-from config import guest, guest_mode
-def check_guest(sub):
-    if sub in guest and guest_mode is True:
-        abort(401, message="You are a guest!")
-
-
-
+from lib.utils import check_guest
 now = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
 
 
 blp = Blueprint("learns", __name__, description="Control Learning Items")
-
-
-
 @blp.route("/learn/<int:learn_id>")
 class Learn(MethodView):
     @blp.arguments(LearnUpdateSchema)
