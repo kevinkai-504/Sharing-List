@@ -6,11 +6,8 @@ from models import TagModel, LearnModel, LearnsTags
 from schemas import TagSchema, LearnAndTagSchema, LearnSchema, TagFilterSchema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
-from flask_jwt_extended import (
-    jwt_required,
-    get_jwt,
-)
-from lib.utils import check_guest
+from flask_jwt_extended import jwt_required
+from lib.utils import Sub
 
 
 blp = Blueprint("tags", __name__, description="Control tags")
@@ -20,11 +17,8 @@ class Tag(MethodView):
     @blp.arguments(TagSchema)
     @blp.response(200, TagSchema)
     def put(self, tag_data, tag_id):
-        sub = get_jwt()['sub']
         tag = TagModel.query.get(tag_id)
-        check_guest(sub)   #guest
-        if tag.user_id != int(sub):
-            return jsonify({"message":"You are not the user."}), 401
+        Sub(tag.user_id)
         try:
             tag.name = tag_data["name"]
             db.session.add(tag)
@@ -40,11 +34,8 @@ class Tag(MethodView):
     
     @jwt_required()
     def delete(self, tag_id):
-        sub = get_jwt()['sub']
         tag = TagModel.query.get_or_404(tag_id)
-        check_guest(sub)  #guest
-        if tag.user_id != int(sub):
-            return jsonify({"message":"You are not the user."}), 401
+        Sub(tag.user_id)
         if not tag.learn:
             db.session.delete(tag)
             db.session.commit()
@@ -61,9 +52,7 @@ class TagList(MethodView):
     @blp.arguments(TagSchema)
     @blp.response(201, TagSchema)
     def post(self, tag_data):
-        sub = get_jwt()['sub']
-        check_guest(sub)  #guest
-        tag = TagModel(**tag_data, user_id=int(sub))
+        tag = TagModel(**tag_data, user_id=int(Sub()))
         try:
             db.session.add(tag)
             db.session.commit()
@@ -79,21 +68,16 @@ class TagList(MethodView):
     @jwt_required()
     @blp.response(200, TagSchema(many=True))
     def get(self):
-        sub = get_jwt()['sub']
-        return TagModel.query.filter_by(user_id=int(sub)).all()
+        return TagModel.query.filter_by(user_id=int(Sub())).all()
    
 @blp.route("/learn/<int:learn_id>/tag/<int:tag_id>")
 class LinkLearnToTag(MethodView):
     @jwt_required()
     @blp.response(201, TagSchema)
     def post(self, learn_id, tag_id):
-        sub = get_jwt()['sub']
-        check_guest(sub) #guest
         learn = LearnModel.query.get_or_404(learn_id)
         tag = TagModel.query.get_or_404(tag_id)
-        if learn.user_id != int(sub) or tag.user_id != int(sub):
-            return jsonify({"message":"You are not the user."}), 401
-
+        Sub(learn.user_id, tag.user_id)
         learn.tag.append(tag)
 
         try:
@@ -106,14 +90,9 @@ class LinkLearnToTag(MethodView):
     @jwt_required()
     @blp.response(200, LearnAndTagSchema)
     def delete(self, learn_id, tag_id):
-        sub = get_jwt()['sub']
-        check_guest(sub)  #guest
         learn = LearnModel.query.get_or_404(learn_id)
         tag = TagModel.query.get_or_404(tag_id)
-        if learn.user_id != int(sub) or tag.user_id != int(sub):
-            return jsonify({"message":"You are not the user."}), 401
-
-
+        Sub(learn.user_id, tag.user_id)
         learn.tag.remove(tag)
 
         try:
@@ -140,16 +119,15 @@ class LearList_TagFilter(MethodView):
     @blp.arguments(TagFilterSchema)
     @blp.response(201, LearnSchema(many=True))
     def post(self, tag_list):
-        sub = get_jwt()['sub']
         if tag_list["tag_list"] == []:
-            return LearnModel.query.filter_by(user_id=sub).all()
+            return LearnModel.query.filter_by(user_id=Sub()).all()
 
         learn_id_set = set()
         learn_id_array = []
 
         learn_list = []
         for tag_id in tag_list["tag_list"]:
-            if TagModel.query.get_or_404(tag_id).user_id != int(sub):
+            if TagModel.query.get_or_404(tag_id).user_id != int(Sub()):
                 return jsonify({"message":"You are not the user."}), 401
         
         tag = TagModel.query.get_or_404(tag_list["tag_list"][0])

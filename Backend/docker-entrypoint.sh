@@ -4,4 +4,4 @@
 flask db upgrade
 
 # 啟動 gunicorn 伺服器
-exec gunicorn --bind 0.0.0.0:5000 "run:app"
+exec gunicorn --bind 0.0.0.0:5000 --reload "run:app"

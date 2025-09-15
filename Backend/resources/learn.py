@@ -10,7 +10,7 @@ import datetime
 from flask_jwt_extended import (
     jwt_required,
 )
-from lib.utils import Sub
+from lib.utils import Sub, integrityCheck
 now = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
 
 
@@ -22,13 +22,17 @@ class Learn(MethodView):
     @jwt_required()
     def put(self, learn_data, learn_id):
         learn = LearnModel.query.get(learn_id)
-        sub = Sub(learn.user_id)
+        Sub(learn.user_id)
         if learn_data["status"].upper() not in ["A", "B", "C", "D"]:
             abort(400, message="You should type A~D.")
         try:
             learn.name = learn_data["name"]
             learn.status = learn_data["status"].upper()
             learn.note = learn_data["note"]
+            
+            learns = LearnModel.query.filter_by(user_id=int(Sub()), name=learn_data["name"]).all()
+            integrityCheck(learns)
+
             db.session.add(learn)
             db.session.commit()
         except IntegrityError:
@@ -44,7 +48,7 @@ class Learn(MethodView):
     @jwt_required()
     def delete(self, learn_id):
         learn = LearnModel.query.get_or_404(learn_id)
-        sub = Sub(learn.user_id)
+        Sub(learn.user_id)
         db.session.delete(learn)
         db.session.commit()
         return jsonify({"message": "Learn Item deleted!"}), 200
@@ -53,27 +57,21 @@ class Learn(MethodView):
 @blp.route("/learn")
 class LearnList(MethodView):
     #有標籤時，此get暫時由tag.py進行
-    @jwt_required()
-    @blp.response(200, LearnSchema(many=True))
-    def get(self):
-        sub = Sub()
-        return LearnModel.query.filter_by(user_id=int(sub)).all()
+    # @jwt_required()
+    # @blp.response(200, LearnSchema(many=True))
+    # def get(self):
+    #     return LearnModel.query.filter_by(user_id=int(Sub())).all()
 
     @blp.arguments(LearnSchema)
     @blp.response(201, LearnSchema)
     @jwt_required()
     def post(self, learn_data):
-        sub = Sub()
-        learn = LearnModel(name=learn_data["name"], note=learn_data["note"], status="A", build_time=now, user_id=int(sub))
-
+        learn = LearnModel(name=learn_data["name"], note=learn_data["note"], status="A", build_time=now, user_id=int(Sub()))
+        learns = LearnModel.query.filter_by(user_id=int(Sub()), name=learn_data["name"]).all()
+        integrityCheck(learns)
         try:
             db.session.add(learn)
             db.session.commit()
-        except IntegrityError:
-            abort(
-                400,
-                message="The Learn item already exists."
-            )
         except SQLAlchemyError:
             abort(500, message="An error occurred while inserting the learn.")
         return learn

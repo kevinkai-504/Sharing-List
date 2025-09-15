@@ -1,6 +1,5 @@
 from flask_smorest import abort
 from config import guest, guest_mode, admin
-from flask import jsonify
 from flask_jwt_extended import get_jwt
 
 def build_request_headers(access_token, content_type="application/json"):
@@ -10,9 +9,9 @@ def build_request_headers(access_token, content_type="application/json"):
     }
     return headers
 
-def check_guest(sub): #後來全部改成Sub來產生sub與自動檢查
-    if sub in guest and guest_mode is True:
-        abort(401, message="You are a guest!")
+# def check_guest(sub): #後來全部改成Sub來產生sub與自動檢查
+#     if sub in guest and guest_mode is True:
+#         abort(401, message="You are a guest!")
 
 
 class Sub:
@@ -26,8 +25,13 @@ class Sub:
         return int(self.sub)
     def _check(self):
         if self.sub in guest and guest_mode is True:
-            abort(401, message="You are a guest!HAHA")
+            abort(401, message="You are a guest!")
         if self.admin_mode == True and self.sub not in admin:
-            return jsonify({"message":"You are not the administrator."}), 401
+            abort(401, message="You are not the administrator!")
         if self.target_id and int(self.sub) not in self.target_id:
-            return jsonify({"message":"You are not the user."}), 401
+            abort(401, message="You are not the user!")
+    
+
+def integrityCheck(items):
+    if len(items) > 1:
+        abort(400, message="The Learn item already exists.")

@@ -13,3 +13,7 @@ down:
 .PHONY: force
 force:
 		docker compose up --build --force-recreate -d
+
+.PHONY: query_db
+query_db:
+		docker-compose exec backend python /app/query_db.py
