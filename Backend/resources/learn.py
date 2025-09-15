@@ -9,9 +9,8 @@ import datetime
 
 from flask_jwt_extended import (
     jwt_required,
-    get_jwt,
 )
-from lib.utils import check_guest
+from lib.utils import Sub
 now = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
 
 
@@ -22,11 +21,8 @@ class Learn(MethodView):
     @blp.response(200, LearnSchema)
     @jwt_required()
     def put(self, learn_data, learn_id):
-        sub = get_jwt()['sub']
-        check_guest(sub)   #guest
         learn = LearnModel.query.get(learn_id)
-        if learn.user_id != int(sub):
-            return jsonify({"message":"You are not the user."}), 401
+        sub = Sub(learn.user_id)
         if learn_data["status"].upper() not in ["A", "B", "C", "D"]:
             abort(400, message="You should type A~D.")
         try:
@@ -47,11 +43,8 @@ class Learn(MethodView):
     
     @jwt_required()
     def delete(self, learn_id):
-        sub = get_jwt()['sub']
         learn = LearnModel.query.get_or_404(learn_id)
-        check_guest(sub)   #guest
-        if learn.user_id != int(sub):
-            return jsonify({"message":"You are not the user."}), 401
+        sub = Sub(learn.user_id)
         db.session.delete(learn)
         db.session.commit()
         return jsonify({"message": "Learn Item deleted!"}), 200
@@ -63,15 +56,14 @@ class LearnList(MethodView):
     @jwt_required()
     @blp.response(200, LearnSchema(many=True))
     def get(self):
-        sub = get_jwt()['sub']
+        sub = Sub()
         return LearnModel.query.filter_by(user_id=int(sub)).all()
 
     @blp.arguments(LearnSchema)
     @blp.response(201, LearnSchema)
     @jwt_required()
     def post(self, learn_data):
-        sub = get_jwt()['sub']
-        check_guest(sub)   #guest
+        sub = Sub()
         learn = LearnModel(name=learn_data["name"], note=learn_data["note"], status="A", build_time=now, user_id=int(sub))
 
         try:

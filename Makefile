@@ -9,3 +9,7 @@ test:
 .PHONY: down
 down:
 		docker compose down
+
+.PHONY: force
+force:
+		docker compose up --build --force-recreate -d
