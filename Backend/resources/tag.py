@@ -7,7 +7,7 @@ from schemas import TagSchema, LearnAndTagSchema, LearnSchema, TagFilterSchema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from flask_jwt_extended import jwt_required
-from lib.utils import Sub
+from lib.utils import Sub, integrityCheck
 
 
 blp = Blueprint("tags", __name__, description="Control tags")
@@ -21,15 +21,12 @@ class Tag(MethodView):
         Sub(tag.user_id)
         try:
             tag.name = tag_data["name"]
+            tags = TagModel.query.filter_by(user_id=int(Sub()), name=tag_data["name"]).all()
+            integrityCheck(tags)
             db.session.add(tag)
             db.session.commit()
-        except IntegrityError:
-            abort(
-                400,
-                message="The Tag item already exists."
-            )
         except SQLAlchemyError:
-            abort(500, messgae="An erro occurred updating tags.")
+            abort(500, messgae="An error occurred updating tags.")
         return tag
     
     @jwt_required()
@@ -53,14 +50,11 @@ class TagList(MethodView):
     @blp.response(201, TagSchema)
     def post(self, tag_data):
         tag = TagModel(**tag_data, user_id=int(Sub()))
+        tags = TagModel.query.filter_by(user_id=int(Sub()), name=tag_data["name"]).all()
+        integrityCheck(tags)
         try:
             db.session.add(tag)
             db.session.commit()
-        except IntegrityError:
-            abort(
-                400,
-                message="A tag with that name already exists."
-            )
         except SQLAlchemyError:
             abort(500, message="An error occurred while inserting the tag.")
         return tag
@@ -120,20 +114,20 @@ class LearList_TagFilter(MethodView):
     @blp.response(201, LearnSchema(many=True))
     def post(self, tag_list):
         if tag_list["tag_list"] == []:
-            return LearnModel.query.filter_by(user_id=Sub()).all()
+            return LearnModel.query.filter_by(user_id=int(Sub())).all()
 
         learn_id_set = set()
         learn_id_array = []
-
         learn_list = []
+
         for tag_id in tag_list["tag_list"]:
-            if TagModel.query.get_or_404(tag_id).user_id != int(Sub()):
-                return jsonify({"message":"You are not the user."}), 401
+            Sub(TagModel.query.get_or_404(tag_id).user_id)
         
         tag = TagModel.query.get_or_404(tag_list["tag_list"][0])
         learns = tag.learn
         for learn in learns:
             learn_id_set.add(learn.id)
+
         for tag in tag_list["tag_list"][1:]:
             learn_id_array = []
             tag = TagModel.query.get_or_404(tag)
@@ -141,6 +135,7 @@ class LearList_TagFilter(MethodView):
             for learn in learns:
                 learn_id_array.append(learn.id)
             learn_id_set = learn_id_set.intersection(learn_id_array)
+            
         for learn_id in list(learn_id_set):
             learn_list.append(LearnModel.query.get_or_404(learn_id))
         return learn_list

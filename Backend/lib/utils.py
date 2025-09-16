@@ -33,5 +33,5 @@ class Sub:
     
 
 def integrityCheck(items):
-    if len(items) > 1:
-        abort(400, message="The Learn item already exists.")
+    if len(items) > 0:
+        abort(400, message="The item's name already exists.")
