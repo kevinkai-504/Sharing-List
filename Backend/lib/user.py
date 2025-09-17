@@ -27,7 +27,7 @@ class User:
         request_header = build_request_headers(access_token)
         response = SESSION.get(f"{app_url}{self.user_list_url}", headers=request_header)
         return response
-    def delete(self, app_url, access_token, user_id):
+    def delete(self, app_url, access_token, user_id): #{confest.py:{func:1, secu:1}}
         request_header = build_request_headers(access_token)
         response = SESSION.delete(f"{app_url}{self.user_list_url}/{user_id}", headers=request_header)
         return response

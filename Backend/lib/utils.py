@@ -32,6 +32,10 @@ class Sub:
             abort(401, message="You are not the user!")
     
 
-def integrityCheck(items):
-    if len(items) > 0:
+def integrityCheck(items, method):
+    if (len(items) > 0 and method == "post") or (len(items) > 1 and method =="put"):
         abort(400, message="The item's name already exists.")
+
+
+def log_debug(type, method, route, result="Begin"):
+    return f"\n!!! {type} = ({method})/{route} >> {result}"

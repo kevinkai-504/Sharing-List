@@ -22,7 +22,7 @@ class Tag(MethodView):
         try:
             tag.name = tag_data["name"]
             tags = TagModel.query.filter_by(user_id=int(Sub()), name=tag_data["name"]).all()
-            integrityCheck(tags)
+            integrityCheck(tags, "put")
             db.session.add(tag)
             db.session.commit()
         except SQLAlchemyError:
@@ -51,7 +51,7 @@ class TagList(MethodView):
     def post(self, tag_data):
         tag = TagModel(**tag_data, user_id=int(Sub()))
         tags = TagModel.query.filter_by(user_id=int(Sub()), name=tag_data["name"]).all()
-        integrityCheck(tags)
+        integrityCheck(tags, "post")
         try:
             db.session.add(tag)
             db.session.commit()

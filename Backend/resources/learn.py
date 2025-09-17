@@ -31,15 +31,10 @@ class Learn(MethodView):
             learn.note = learn_data["note"]
             
             learns = LearnModel.query.filter_by(user_id=int(Sub()), name=learn_data["name"]).all()
-            integrityCheck(learns)
+            integrityCheck(learns, "put")
 
             db.session.add(learn)
             db.session.commit()
-        except IntegrityError:
-            abort(
-                400,
-                message="The Learn item already exists."
-            )
         except SQLAlchemyError:
             abort(500, message="An error occurred updating learns.")
                
@@ -68,7 +63,7 @@ class LearnList(MethodView):
     def post(self, learn_data):
         learn = LearnModel(name=learn_data["name"], note=learn_data["note"], status="A", build_time=now, user_id=int(Sub()))
         learns = LearnModel.query.filter_by(user_id=int(Sub()), name=learn_data["name"]).all()
-        integrityCheck(learns)
+        integrityCheck(learns, "post")
         try:
             db.session.add(learn)
             db.session.commit()

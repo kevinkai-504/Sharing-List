@@ -12,11 +12,15 @@ SESSION = requests.Session()
 APP_URL = os.environ.get('APP_URL', 'http://127.0.0.1:5000')
 ADMIN_ACCOUNT = os.getenv("ADMIN_ACCOUNT")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+REGISTER_KEY = os.getenv("REGISTER_KEY")
 
 LOG = logging.getLogger()
 class HideSensitiveData(logging.Filter):
     def filter(self, record):
+        SENSITIVE_DATA = [ADMIN_ACCOUNT, ADMIN_PASSWORD, REGISTER_KEY]
         record.msg = str(record.msg).replace(ADMIN_PASSWORD, "********")
+        for data in SENSITIVE_DATA:
+            record.msg = str(record.msg).replace(data, "********")
         return True
 LOG.addFilter(HideSensitiveData())
 
