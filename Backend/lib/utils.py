@@ -9,11 +9,6 @@ def build_request_headers(access_token, content_type="application/json"):
     }
     return headers
 
-# def check_guest(sub): #後來全部改成Sub來產生sub與自動檢查
-#     if sub in guest and guest_mode is True:
-#         abort(401, message="You are a guest!")
-
-
 class Sub:
     def __init__(self, *target_id, admin_mode=False):
         self.sub = get_jwt()['sub']
