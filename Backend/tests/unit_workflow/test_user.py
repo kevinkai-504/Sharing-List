@@ -2,6 +2,7 @@ from lib.user import User
 from config import APP_URL, LOG, REGISTER_KEY
 import uuid
 from lib.utils import log_debug
+from lib.tag import Tag
 
 
 # /register
@@ -92,8 +93,8 @@ def test_logout_secu_old_token(create_temp_account):
     LOG.debug(log_debug("logout_secu_old_token", "post", "logout", f"header = {access_token}"))
     response = User().logout(APP_URL, access_token)
     assert response.ok
-    response = User().logout(APP_URL, access_token)
-    assert not response.ok
+    response = Tag().get_learn(APP_URL, access_token)
+    assert response.json()['error'] == 'token_revoked'
     LOG.debug(log_debug("logout_secu_old_token", "post", "logout", f"result = {response.json()}"))
 
 
