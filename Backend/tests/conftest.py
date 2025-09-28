@@ -79,36 +79,80 @@ def get_temp_account(login_as_admin_token, login_temp_account):
 def get_learn_items(login_temp_account):
     data = login_temp_account
     access_token = data["access_token"]
-    response = Tag().get_learn(APP_URL, access_token)
-    assert response.json() == []
-    response = Learn().post_learn(APP_URL, access_token, name="1")
-    assert response.ok
-    response = Learn().post_learn(APP_URL, access_token, name="2")
-    assert response.ok
-    response = Learn().post_learn(APP_URL, access_token, name="3")
-    assert response.ok
-    response = Learn().post_learn(APP_URL, access_token, name="else", note="else")
-    assert response.ok
 
+    
+    response = Tag().get_learn(APP_URL, access_token)
+    assert response.json() == [] #測試功能與確認初始為空集合/learnFtag (post)
+    response = Learn().post_learn(APP_URL, access_token, name="temp")
+    assert response.ok #測試功能/learn (post)
+    id = response.json()["id"]
+    response = Learn().delete(APP_URL, access_token, id)
+    assert response.ok #測試功能/learn/id (delete)
+
+
+    response = Learn().post_learn(APP_URL, access_token, name="1")
+    assert response.ok #建立1
+    response = Learn().post_learn(APP_URL, access_token, name="2")
+    assert response.ok #建立2
+    response = Learn().post_learn(APP_URL, access_token, name="1、2")
+    assert response.ok #建立1、2
+    response = Learn().post_learn(APP_URL, access_token, name="else", note="else")
+    assert response.ok #建立else且筆記紀錄else
     id_else = response.json()["id"]
 
     response = Learn().post_learn(APP_URL, access_token, name="else")
-    assert not response.ok
+    assert not response.ok #確認不能同樣名稱建立 /learn (post)
     response = Learn().put(APP_URL, access_token, id_else, name="ELSE", status='A', note="else")
-    assert response.ok
+    assert response.ok #測試 /learn/id (put)
     response = Learn().put(APP_URL, access_token, id_else, name="1", status='A', note="else")
-    assert not response.ok
+    assert not response.ok #確認不能改成已存在名稱 /learn/id (put)
     response = Learn().put(APP_URL, access_token, id_else, name="ELSE", status='A', note="ELSE")
-    assert response.ok
+    assert response.ok #測試 /learn/id (put)
     response = Learn().put(APP_URL, access_token, id_else, name="ELSE", status='B', note="ELSE")
-    assert response.ok
+    assert response.ok #測試 /learn/id (put)
     response = Learn().put(APP_URL, access_token, id_else, name="ELSE", status='B', note="ELSE")
-    assert response.ok
+    assert response.ok #確認沒有更改任何內容也能put成功 /learn/id (put)
 
-    # id = response.json()["id"]
-    # response = Learn().delete(APP_URL, access_token, id)
-    # assert response.ok
     response = Tag().get_learn(APP_URL, access_token)
-    yield response.json()
+    assert response.ok
 
-    
+    data = {
+        "learn_list":response.json(),
+        "access_token":access_token
+    }
+    yield data
+
+
+@pytest.fixture(scope="function")
+def get_tag_items(get_learn_items):
+    data = get_learn_items
+    access_token = data["access_token"]
+    response = Tag().get_all_tags(APP_URL, access_token)
+    assert response.json() == [] #測試並確認初始tag_list是空集合 /tag (get)
+    response = Tag().post_tag(APP_URL, access_token, name="1")
+    assert response.ok #建立標籤1；測試 /tag (post)
+    response = Tag().post_tag(APP_URL, access_token, name="2")
+    assert response.ok #建立標籤2
+    response = Tag().post_tag(APP_URL, access_token, name="else")
+    assert response.ok #建立標籤else
+    response = Tag().post_tag(APP_URL, access_token, name="else")
+    assert not response.ok #確認tag不能重複建立 /tag (post)
+
+
+    response = Tag().post_tag(APP_URL, access_token, name="del")
+    assert response.ok #建立標籤del
+    id_del = response.json()["id"]
+    response = Tag().put_tag(APP_URL, access_token, name="delete", id=id_del)
+    assert response.ok #測試 /tag/id (put)
+    response = Tag().put_tag(APP_URL, access_token, name="delete", id=id_del)
+    assert response.ok #確認put目前名稱的標籤沒問題 /tag/id (put)
+    response = Tag().put_tag(APP_URL, access_token, name="else", id=id_del)
+    assert not response.ok #確認put不能是已存在的標籤 /tag/id (put)
+    response = Tag().delete_tag(APP_URL, access_token, id=id_del)
+    assert response.ok #測試 /tag/id (delete)
+
+
+
+    response = Tag().get_all_tags(APP_URL, access_token)
+    assert response.ok
+    yield response.json()
