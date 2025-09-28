@@ -1,6 +1,7 @@
 import pytest
 from config import APP_URL, ADMIN_ACCOUNT, ADMIN_PASSWORD, REGISTER_KEY, LOG
 from lib.user import User
+from lib.tag import Tag
 import uuid
 
 @pytest.fixture(scope="session")
@@ -71,5 +72,14 @@ def get_temp_account(login_as_admin_token, login_temp_account):
     data = {"username":temp_uername, "id":temp_user_id}
 
     yield data
+
+
+@pytest.fixture(scope="function")
+def get_learn_items(login_temp_account):
+    data = login_temp_account
+    access_token = data["access_token"]
+    response = Tag().learn(APP_URL, access_token)
+    assert response.ok
+    yield response.json()
 
     
