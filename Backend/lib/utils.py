@@ -2,12 +2,15 @@ from flask_smorest import abort
 from config import guest, guest_mode, admin
 from flask_jwt_extended import get_jwt
 
-def build_request_headers(access_token, content_type="application/json"):
-    headers = {
-        "Authorization":f"Bearer {access_token}",
-        "Accept": content_type
-    }
-    return headers
+def build_request_headers(access_token=None, content_type="application/json"):
+    if access_token:
+        headers = {
+            "Authorization":f"Bearer {access_token}",
+            "Accept": content_type
+        }
+        return headers
+    headers = {"Accept": content_type}
+    return 
 
 class Sub:
     def __init__(self, *target_id, admin_mode=False):

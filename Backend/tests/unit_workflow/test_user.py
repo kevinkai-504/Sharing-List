@@ -108,3 +108,12 @@ def test_get_users_secu_notAdmin(login_temp_account):
     response = User().user_list(APP_URL, access_token)
     assert response.status_code != 200
     LOG.debug(log_debug("get_users_func", "get", "user", f"result = {response.json()}"))
+
+def test_users_not_token():
+    LOG.debug("users_not_token")
+    response = User().logout(APP_URL, access_token=None)
+    assert response.json()['error'] == "authorization_required"
+    response = User().user_list(APP_URL, access_token=None)
+    assert response.json()['error'] == "authorization_required"
+    response = User().delete(APP_URL, access_token=None, user_id=999)
+    assert response.json()['error'] == "authorization_required"
