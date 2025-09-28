@@ -2,6 +2,7 @@ import pytest
 from config import APP_URL, ADMIN_ACCOUNT, ADMIN_PASSWORD, REGISTER_KEY, LOG
 from lib.user import User
 from lib.tag import Tag
+from lib.learn import Learn
 import uuid
 
 @pytest.fixture(scope="session")
@@ -78,8 +79,36 @@ def get_temp_account(login_as_admin_token, login_temp_account):
 def get_learn_items(login_temp_account):
     data = login_temp_account
     access_token = data["access_token"]
-    response = Tag().learn(APP_URL, access_token)
+    response = Tag().get_learn(APP_URL, access_token)
+    assert response.json() == []
+    response = Learn().post_learn(APP_URL, access_token, name="1")
     assert response.ok
+    response = Learn().post_learn(APP_URL, access_token, name="2")
+    assert response.ok
+    response = Learn().post_learn(APP_URL, access_token, name="3")
+    assert response.ok
+    response = Learn().post_learn(APP_URL, access_token, name="else", note="else")
+    assert response.ok
+
+    id_else = response.json()["id"]
+
+    response = Learn().post_learn(APP_URL, access_token, name="else")
+    assert not response.ok
+    response = Learn().put(APP_URL, access_token, id_else, name="ELSE", status='A', note="else")
+    assert response.ok
+    response = Learn().put(APP_URL, access_token, id_else, name="1", status='A', note="else")
+    assert not response.ok
+    response = Learn().put(APP_URL, access_token, id_else, name="ELSE", status='A', note="ELSE")
+    assert response.ok
+    response = Learn().put(APP_URL, access_token, id_else, name="ELSE", status='B', note="ELSE")
+    assert response.ok
+    response = Learn().put(APP_URL, access_token, id_else, name="ELSE", status='B', note="ELSE")
+    assert response.ok
+
+    # id = response.json()["id"]
+    # response = Learn().delete(APP_URL, access_token, id)
+    # assert response.ok
+    response = Tag().get_learn(APP_URL, access_token)
     yield response.json()
 
     
