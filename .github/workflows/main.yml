@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "CICD" ] # 當推送到 CICD 分支時觸發
+
+jobs:
+  build:
+    name: Pytest
+    runs-on: ubuntu-latest
+    steps:
+      - name: init
+        uses: actions/checkout@v4
+      
+      - name: Create .env File
+        run: |
+          # 寫入本地.env
+          echo "POSTGRES_USER=user" >> Backend/.env
+          echo "POSTGRES_PASSWORD=password" >> Backend/.env
+          echo "POSTGRES_DB=mydatabase" >> Backend/.env
+          echo "DATABASE_URL=postgresql://\${POSTGRES_USER}:\${POSTGRES_PASSWORD}@db:5432/\${POSTGRES_DB}" >> Backend/.env
+          echo "JWT_SECRET_KEY=123" >> Backend/.env
+          echo "REGISTER_KEY=123" >> Backend/.env
+          echo "ADMIN_ACCOUNT=Kevin" >> Backend/.env
+          echo "ADMIN_PASSWORD=test" >> Backend/.env
+          echo "APP_URL=http://127.0.0.1:5000" >> Backend/.env
+          echo "ADMIN=1,3" >> Backend/.env
+          echo "GUEST=2,4" >> Backend/.env
+          echo "GUEST_MODE=True" >> Backend/.env
+          
+      - name: build
+        run: |
+          make build # 啟動 Docker 服務
+          
+      - name: Wait 
+        run: |
+          sleep 50 # 等待資料庫啟動
+          
+      - name: Pytests
+        run: |
+          make test # 執行測試
