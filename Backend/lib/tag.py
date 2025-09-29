@@ -4,11 +4,10 @@ from config import SESSION
 class Tag:
     def __init__(self):
         self.learn = "/learnFtag"
-        self.tag_list = []
-
         self.tag = "/tag"
-    def get_learn(self, app_url, access_token):
-        payload = {"tag_list":self.tag_list}
+        self.link_learn = "/learn"
+    def get_learn(self, app_url, access_token, tag_list=[]):
+        payload = {"tag_list":tag_list}
         request_header = build_request_headers(access_token)
         response = SESSION.post(f"{app_url}{self.learn}", headers=request_header, json=payload)
         return response
@@ -32,4 +31,19 @@ class Tag:
     def delete_tag(self, app_url, access_token, id):
         request_header = build_request_headers(access_token)
         response = SESSION.delete(f"{app_url}{self.tag}/{id}", headers=request_header)
+        return response
+    
+    def get_link(self, app_url, access_token, learn_id, tag_id):
+        request_header = build_request_headers(access_token)
+        response = SESSION.get(f"{app_url}{self.link_learn}/{learn_id}{self.tag}/{tag_id}", headers=request_header)
+        return response
+    
+    def post_link(self, app_url, access_token, learn_id, tag_id):
+        request_header = build_request_headers(access_token)
+        response = SESSION.post(f"{app_url}{self.link_learn}/{learn_id}{self.tag}/{tag_id}", headers=request_header)
+        return response
+    
+    def delete_link(self, app_url, access_token, learn_id, tag_id):
+        request_header = build_request_headers(access_token)
+        response = SESSION.delete(f"{app_url}{self.link_learn}/{learn_id}{self.tag}/{tag_id}", headers=request_header)
         return response

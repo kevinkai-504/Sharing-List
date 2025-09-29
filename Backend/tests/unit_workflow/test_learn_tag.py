@@ -34,3 +34,9 @@ def test_Plaintags_not_token():
     assert response.json()['error'] == "authorization_required"
     response = Tag().delete_tag(APP_URL, access_token=None, id=999)
     assert response.json()['error'] == "authorization_required"
+    response = Tag().get_link(APP_URL, access_token=None, learn_id=999, tag_id=999)
+    assert response.json()['error'] == "authorization_required"
+    response = Tag().post_link(APP_URL, access_token=None, learn_id=999, tag_id=999)
+    assert response.json()['error'] == "authorization_required"
+    response = Tag().delete_link(APP_URL, access_token=None, learn_id=999, tag_id=999)
+    assert response.json()['error'] == "authorization_required"
