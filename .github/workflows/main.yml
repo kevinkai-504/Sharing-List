@@ -66,7 +66,7 @@ jobs:
         run: |
           echo "--- 生產環境參數成功注入 ---"
           echo "APP_URL: ${APP_URL:0:10}..."
-          echo "CORS_ORIGINS: ${CORS_ORIGINS}"
-          echo "GUEST_MODE: ${GUEST_MODE}"
+          echo "CORS_ORIGINS: ${CORS_ORIGINS:0:10}"
+          echo "GUEST_MODE: ${GUEST_MODE:0:2}"
           
           echo "--- 參數注入與檢查完成 ---"
