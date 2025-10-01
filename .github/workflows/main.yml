@@ -9,7 +9,7 @@ jobs:
     name: Run Pytest
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: preset
         uses: actions/checkout@v4
       
       - name: Create .env File
@@ -41,3 +41,32 @@ jobs:
         if: always()
         run: |
           make down
+
+  env_injection_check:
+    name: Injection Check
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: preset
+        uses: actions/checkout@v4
+
+      - name: Inject Secrets
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          REGISTER_KEY: ${{ secrets.REGISTER_KEY }}
+          CORS_ORIGINS: ${{ secrets.CORS_ORIGINS }}
+          ADMIN_ACCOUNT: ${{ secrets.ADMIN_ACCOUNT }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          APP_URL: ${{ secrets.APP_URL }}
+          ADMIN: ${{ secrets.ADMIN }}
+          GUEST: ${{ secrets.GUEST }}
+          GUEST_MODE: ${{ secrets.GUEST_MODE }}
+          
+        run: |
+          echo "--- 生產環境參數成功注入 ---"
+          echo "APP_URL: ${APP_URL:0:10}..."
+          echo "CORS_ORIGINS: ${CORS_ORIGINS}"
+          echo "GUEST_MODE: ${GUEST_MODE}"
+          
+          echo "--- 參數注入與檢查完成 ---"
