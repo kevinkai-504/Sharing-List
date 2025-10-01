@@ -7,7 +7,7 @@ import uuid
 
 @pytest.fixture(scope="session")
 def login_as_admin_token():
-    
+
     response = User().login(APP_URL, ADMIN_ACCOUNT, ADMIN_PASSWORD)
     assert response.ok
     access_token = response.json()["access_token"]

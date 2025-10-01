@@ -3,7 +3,6 @@ from models.learn import LearnModel
 from models.user import UserModel
 from config import ADMIN_ACCOUNT, ADMIN_PASSWORD
 from db import db
-from flask import jsonify
 from passlib.hash import pbkdf2_sha256
 
 app = create_app()
