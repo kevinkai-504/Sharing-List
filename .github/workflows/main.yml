@@ -50,23 +50,32 @@ jobs:
       - name: preset
         uses: actions/checkout@v4
 
-      - name: Inject Secrets
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          REGISTER_KEY: ${{ secrets.REGISTER_KEY }}
-          CORS_ORIGINS: ${{ secrets.CORS_ORIGINS }}
-          ADMIN_ACCOUNT: ${{ secrets.ADMIN_ACCOUNT }}
-          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-          APP_URL: ${{ secrets.APP_URL }}
-          ADMIN: ${{ secrets.ADMIN }}
-          GUEST: ${{ secrets.GUEST }}
-          GUEST_MODE: ${{ secrets.GUEST_MODE }}
-          
+      - name: Create .env File (deploy version)
         run: |
-          echo "--- 生產環境參數成功注入 ---"
-          echo "APP_URL: ${APP_URL:0:10}..."
-          echo "CORS_ORIGINS: ${CORS_ORIGINS:0:10}"
-          echo "GUEST_MODE: ${GUEST_MODE:0:2}"
+
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> Backend/.env
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> Backend/.env
+          echo "REGISTER_KEY=${{ secrets.REGISTER_KEY }}" >> Backend/.env
+          echo "CORS_ORIGINS=${{ secrets.CORS_ORIGINS }}" >> Backend/.env
+          echo "ADMIN_ACCOUNT=${{ secrets.ADMIN_ACCOUNT }}" >> Backend/.env
+          echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> Backend/.env
+          echo "APP_URL=${{ secrets.APP_URL }}" >> Backend/.env
+          echo "ADMIN=${{ secrets.ADMIN }}" >> Backend/.env
+          echo "GUEST=${{ secrets.GUEST }}" >> Backend/.env
+          echo "GUEST_MODE=${{ secrets.GUEST_MODE }}" >> Backend/.env
+
+
+      - name: Build > pytest
+        run: |
+          echo "Building and starting services..."
+          make build
           
-          echo "--- 參數注入與檢查完成 ---"
+          sleep 50
+          
+          echo "Running Pytests..."
+          make test
+          
+      - name: docker compose down
+        if: always()
+        run: |
+          make down
