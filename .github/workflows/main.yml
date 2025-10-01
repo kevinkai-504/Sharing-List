@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "CICD" ] # 當推送到 CICD 分支時觸發
+    branches: [ "main", "CICD" ] # push到main和CICD分支時觸發檢查
 
 jobs:
   test:
