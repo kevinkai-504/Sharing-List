@@ -53,13 +53,13 @@ jobs:
       - name: Create .env File (deploy version)
         run: |
 
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> Backend/.env
+          echo "DATABASE_URL=postgresql://user:password@db:5432/mydatabase" >> Backend/.env
           echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> Backend/.env
           echo "REGISTER_KEY=${{ secrets.REGISTER_KEY }}" >> Backend/.env
           echo "CORS_ORIGINS=${{ secrets.CORS_ORIGINS }}" >> Backend/.env
           echo "ADMIN_ACCOUNT=${{ secrets.ADMIN_ACCOUNT }}" >> Backend/.env
           echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> Backend/.env
-          echo "APP_URL=${{ secrets.APP_URL }}" >> Backend/.env
+          echo "APP_URL=http://127.0.0.1:5000" >> Backend/.env
           echo "ADMIN=${{ secrets.ADMIN }}" >> Backend/.env
           echo "GUEST=${{ secrets.GUEST }}" >> Backend/.env
           echo "GUEST_MODE=${{ secrets.GUEST_MODE }}" >> Backend/.env
