@@ -9,3 +9,7 @@ test:
 .PHONY: down
 down:
 		docker compose down
+
+.PHONY: query_db
+query_db:
+		docker-compose exec backend python /app/query_db.py
