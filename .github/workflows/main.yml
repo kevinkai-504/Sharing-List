@@ -24,7 +24,7 @@ jobs:
           echo "ADMIN_PASSWORD=test" >> Backend/.env
           echo "APP_URL=http://127.0.0.1:5000" >> Backend/.env
           echo "ADMIN=1" >> Backend/.env
-          echo "GUEST=2" >> Backend/.env
+          echo "GUEST=5" >> Backend/.env
           echo "GUEST_MODE=True" >> Backend/.env
           
       - name: Build > pytest
