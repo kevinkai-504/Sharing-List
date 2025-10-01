@@ -1,0 +1,86 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "CICD" ] # push到main和CICD分支時觸發檢查
+
+jobs:
+  test:
+    name: Run Pytest
+    runs-on: ubuntu-latest
+    steps:
+      - name: preset
+        uses: actions/checkout@v4
+      
+      - name: Create .env File
+        run: |
+          echo "POSTGRES_USER=user" > Backend/.env
+          echo "POSTGRES_PASSWORD=password" >> Backend/.env
+          echo "POSTGRES_DB=mydatabase" >> Backend/.env
+          echo "DATABASE_URL=postgresql://\${POSTGRES_USER}:\${POSTGRES_PASSWORD}@db:5432/\${POSTGRES_DB}" >> Backend/.env
+          echo "JWT_SECRET_KEY=123" >> Backend/.env
+          echo "REGISTER_KEY=123" >> Backend/.env
+          echo "ADMIN_ACCOUNT=user" >> Backend/.env
+          echo "ADMIN_PASSWORD=test" >> Backend/.env
+          echo "APP_URL=http://127.0.0.1:5000" >> Backend/.env
+          echo "ADMIN=1" >> Backend/.env
+          echo "GUEST=5" >> Backend/.env
+          echo "GUEST_MODE=True" >> Backend/.env
+          
+      - name: Build > pytest
+        run: |
+          echo "Building and starting services..."
+          make build
+          
+          sleep 50
+          
+          echo "Running Pytests..."
+          make test
+          
+      - name: docker compose down
+        if: always()
+        run: |
+          make down
+
+  env_injection_check:
+    name: Injection Check
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: preset
+        uses: actions/checkout@v4
+
+      - name: Create .env File (deploy version)
+        run: |
+          # for compose.yaml health_check
+          echo "POSTGRES_USER=user" > Backend/.env
+          echo "POSTGRES_PASSWORD=password" >> Backend/.env
+          echo "POSTGRES_DB=mydatabase" >> Backend/.env
+
+          # env variable form (see .env.example)
+          echo "DATABASE_URL=postgresql://user:password@db:5432/mydatabase" >> Backend/.env
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> Backend/.env
+          echo "REGISTER_KEY=${{ secrets.REGISTER_KEY }}" >> Backend/.env
+          echo "CORS_ORIGINS=${{ secrets.CORS_ORIGINS }}" >> Backend/.env
+          echo "ADMIN_ACCOUNT=${{ secrets.ADMIN_ACCOUNT }}" >> Backend/.env
+          echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> Backend/.env
+          echo "APP_URL=http://127.0.0.1:5000" >> Backend/.env
+          echo "ADMIN=${{ secrets.ADMIN }}" >> Backend/.env
+          echo "GUEST=${{ secrets.GUEST }}" >> Backend/.env
+          echo "GUEST_MODE=${{ secrets.GUEST_MODE }}" >> Backend/.env
+
+
+      - name: Build > pytest
+        run: |
+          echo "Building and starting services..."
+          make build
+          
+          sleep 50
+          
+          echo "Running Pytests..."
+          make test
+          
+      - name: docker compose down
+        if: always()
+        run: |
+          make down

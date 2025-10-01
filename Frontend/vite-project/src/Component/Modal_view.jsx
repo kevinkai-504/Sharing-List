@@ -45,6 +45,7 @@ export function Modal_view({type, type2='', link_id='', link_type='', name, reco
   const handleClose = () => {
     setShow(false)
     recover(false)
+    window.location.reload()
   }
 
   const [show, setShow] = useState(true);

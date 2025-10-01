@@ -26,7 +26,6 @@ export function Item_List({
   const openModal = (target_Id) => {
     setOpenType2(!openType2);
     settype2Id(target_Id);
-    console.log(openType2)
   };
 
   const color_list = {

@@ -33,6 +33,13 @@ def create_app():
     app.config["API_TITLE"] = "Learns REST API"
     app.config["API_VERSION"] = "v1"
     app.config["OPENAPI_VERSION"] = "3.0.2"
+
+    # 新增swagger_UI方便展示與pytest建立
+    app.config["OPENAPI_URL_PREFIX"] = "/"
+    app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+    app.config[
+        "OPENAPI_SWAGGER_UI_URL"
+    ] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
     
     
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")

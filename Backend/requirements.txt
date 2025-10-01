@@ -17,3 +17,9 @@ gunicorn
 psycopg[binary]
 alembic
 flask-migrate
+
+# CICD
+requests
+pytest
+
+pytest-html

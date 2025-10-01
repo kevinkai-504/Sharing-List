@@ -1,6 +1,6 @@
 from flask import jsonify
 from flask.views import MethodView
-from flask_smorest import Blueprint, abort
+from flask_smorest import Blueprint
 from db import db
 from models import UserModel
 from schemas import UserSchema, UserFirstTimeSchema
@@ -16,10 +16,8 @@ from flask_jwt_extended import (
     get_jwt,
     jwt_required,
 )
-
-#0812授權碼改為.env
 import os
-
+from lib.utils import Sub
 
 
 blp = Blueprint("Users", __name__, description="Operations on users")
@@ -92,9 +90,7 @@ class UserLogout(MethodView):
 class User(MethodView):
     @jwt_required()
     def delete(self, user_id):
-        sub = get_jwt()['sub']
-        if sub != admin:
-            return jsonify({"message":"You are not the administrator."}), 401
+        Sub(admin_mode=True)
         user = UserModel.query.get_or_404(user_id)
         db.session.delete(user)
         db.session.commit()
@@ -106,9 +102,7 @@ class UserList(MethodView):
     @jwt_required()
     @blp.response(200, UserSchema(many=True))
     def get(self):
-        sub = get_jwt()['sub']
-        if sub != admin:
-            return jsonify({"message":"You are not the user."}), 401
+        Sub(admin_mode=True)
         user = UserModel.query.all()
         return user
     
