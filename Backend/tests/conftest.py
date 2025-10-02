@@ -233,8 +233,6 @@ def initial_guest():
         access_token = login_response.json()["access_token"]
     else:
         access_token = "None"
-
-    LOG.info(access_token)
     yield access_token
 
     if access_token and access_token != "None":

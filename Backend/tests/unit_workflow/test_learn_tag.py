@@ -46,10 +46,9 @@ def test_guest_behave(initial_guest):
     access_token = initial_guest
     if access_token == "None":
         return
-    message = "You are a guest!"
 
     response = Learn().post_learn(APP_URL, access_token, name="temp")
-    assert response.json()['message'] == message
+    assert not response.ok
     response = Learn().delete(APP_URL, access_token, learn_id=999)
     assert not response.ok
     response = Learn().put(APP_URL, access_token, learn_id=999, name="ELSE", status='A', note="else")
@@ -60,7 +59,7 @@ def test_guest_behave(initial_guest):
     response = Tag().get_all_tags(APP_URL, access_token) #允許訪客看到所有標籤
     assert response.ok
     response = Tag().post_tag(APP_URL, access_token, name="1")
-    assert response.json()['message'] == message
+    assert not response.ok
     response = Tag().put_tag(APP_URL, access_token, name="delete", id=999)
     assert not response.ok
     response = Tag().delete_tag(APP_URL, access_token, id=999)
