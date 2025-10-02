@@ -1,17 +1,16 @@
 2025/9/5:已部屬(https://sharing-list-frontend.onrender.com)
 2025/10/1:新增CI/CD(Pytest、Makefile、Github Action)
-
-預計於10/2前增加使用範例與參考資源
+2025/10/2:新增操作說明、使用範例與參考資源
 --------------------
 
 開發者步驟(本地):
     0. 確認有安裝git與docker(Make推薦安裝)
 
-    1. 進Backend>.env.example改成.env，並詳閱參數設定內容(不修正也可執行)
+    1. 進Backend>將.env.example複製，複製的檔案改名成.env，並詳閱參數設定內容
 
-    2. 於Terminal輸入Make build即可運行；可透過Make test測試功能正常與否
+    2. 於Terminal輸入Make build即可啟動服務；完整啟動服務後，可透過Make test測試功能正常與否
 
-    3. 前往本地網站: http://localhost:5173
+    3. 前往本地網站: http://localhost:5173  路由資訊可參考:http://localhost:5000/swagger-ui
 
 開發者步驟(CICD):
     0. 於github action增加secret key。詳見.github>workflows>main.yml與.env.example。預設push main時觸發
@@ -32,4 +31,4 @@
 
     2.2 Frontend環境參數:新增VITE_API_URL，value為Backend的實際網址
 
-    3. 進入Frontend網址即可運行
+    3. 進入Frontend網址即可運行(首次或是長時間後重新請求時會等待回應比較久，由於伺服器待機)

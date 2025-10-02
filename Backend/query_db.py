@@ -35,7 +35,17 @@ def query_learn_items():
         except:
             print("something wrong")
 
-        print("A initial account is ready!")
+        user1 = UserModel(
+            username="guest",
+            password=pbkdf2_sha256.hash("test")
+        )
+        try:
+            db.session.add(user1)
+            db.session.commit()
+        except:
+            print("something wrong")
+
+        print("A initial admin_account and guest_account is ready!")
 
 
 

@@ -225,3 +225,18 @@ def get_tag_items(get_learn_items):
     response = Tag().get_all_tags(APP_URL, access_token)
     assert response.ok
     yield response.json()
+
+@pytest.fixture(scope="function")
+def initial_guest():
+    login_response = User().login(APP_URL, "guest", "test")
+    if login_response.status_code == 201:
+        access_token = login_response.json()["access_token"]
+    else:
+        access_token = "None"
+
+    LOG.info(access_token)
+    yield access_token
+
+    if access_token and access_token != "None":
+        logout_response = User().logout(APP_URL, access_token)
+        assert logout_response.ok

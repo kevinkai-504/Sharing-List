@@ -62,7 +62,7 @@ class TagList(MethodView):
     @jwt_required()
     @blp.response(200, TagSchema(many=True))
     def get(self):
-        return TagModel.query.filter_by(user_id=int(Sub())).all()
+        return TagModel.query.filter_by(user_id=int(Sub(allow=True))).all()
    
 @blp.route("/learn/<int:learn_id>/tag/<int:tag_id>")
 class LinkLearnToTag(MethodView):
@@ -99,6 +99,9 @@ class LinkLearnToTag(MethodView):
     @jwt_required()
     @blp.response(200, LearnAndTagSchema)
     def get(self, learn_id, tag_id):
+        learn = LearnModel.query.get_or_404(learn_id)
+        tag = TagModel.query.get_or_404(tag_id)
+        Sub(learn.user_id, tag.user_id, allow=True)
         try:
             if LearnsTags.query.filter_by(learn_id=learn_id, tag_id=tag_id).all():
                 return jsonify({"message":"true"}), 200
@@ -114,7 +117,7 @@ class LearList_TagFilter(MethodView):
     @blp.response(201, LearnSchema(many=True))
     def post(self, tag_list):
         if tag_list["tag_list"] == []:
-            return LearnModel.query.filter_by(user_id=int(Sub())).all()
+            return LearnModel.query.filter_by(user_id=int(Sub(allow=True))).all()
 
         learn_id_set = set()
         learn_id_array = []

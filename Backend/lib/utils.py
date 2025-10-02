@@ -13,17 +13,19 @@ def build_request_headers(access_token=None, content_type="application/json"):
     return 
 
 class Sub:
-    def __init__(self, *target_id, admin_mode=False):
+    def __init__(self, *target_id, admin_mode=False, allow=False):
         self.sub = get_jwt()['sub']
         self.target_id = target_id
         self.admin_mode = admin_mode
+        self.allow = allow
 
         self._check()
     def __int__(self):
         return int(self.sub)
     def _check(self):
         if self.sub in guest and guest_mode is True:
-            abort(401, message="You are a guest!")
+            if not self.allow:
+                abort(401, message="You are a guest!")
         if self.admin_mode == True and self.sub not in admin:
             abort(401, message="You are not the administrator!")
         if self.target_id and int(self.sub) not in self.target_id:

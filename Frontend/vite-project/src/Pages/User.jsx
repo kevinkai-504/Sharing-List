@@ -122,6 +122,27 @@ export function User() {
                             </div>
                         </div>
                     </div>
+                    <div class="card text-bg-success bg-opacity-25">
+                        <div class="card-body">
+                            <div className='col'><h2>網頁操作步驟</h2></div>
+                            <div className='col'>Step1: 註冊帳號(授權碼需詢問)</div>
+                            <div className='col'>Step2: 登入</div>
+                            <div className='col'>Step3: 於上方表格新增項目</div>
+                            <div className='col'>Step4: 點選'編輯'按鈕可分別更改項目參數</div>
+                            <div className='col'>Step5: 點選'標籤'按鈕能讓項目增添數個標籤，並可編輯標籤</div>
+                            <div className='col'>Step6: 按下'顯示標籤'可篩選下方列表顯示</div>
+                        </div>
+                        <div class="card-body">
+                            <div className='col'><h2>使用範例與資源:透過登入訪客帳號查閱(密碼皆輸入test即可)</h2></div>
+                            <div className='col'><h2>以下訪客帳號擇一登入</h2></div>
+                            <div className='col'>說明_參考資源</div>
+                            <div className='col'>說明_標籤系統</div>
+                            <div className='col'>說明_路由</div>
+                            <div className='col'>範例_日本旅遊</div>
+                            <div className='col'>範例_日語學習</div>
+                            <div className='col'>範例_程式架構_pytest</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
