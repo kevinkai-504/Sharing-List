@@ -4,9 +4,9 @@
 --------------------
 
 開發者步驟(本地):
-    0. 確認有安裝git與docker(Make推薦安裝)
+    0. 確認有安裝git、docker、Make
 
-    1. 進Backend>將.env.example複製，複製的檔案改名成.env，並詳閱參數設定內容
+    1. 進Backend>將.env.example複製，複製的檔案改名成.env，並詳閱參數設定內容，並建議本地參數照預設進行
 
     2. 於Terminal輸入Make build即可啟動服務；完整啟動服務後，可透過Make test測試功能正常與否
 
