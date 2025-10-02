@@ -124,7 +124,7 @@ class LearList_TagFilter(MethodView):
         learn_list = []
 
         for tag_id in tag_list["tag_list"]:
-            Sub(TagModel.query.get_or_404(tag_id).user_id)
+            Sub(TagModel.query.get_or_404(tag_id).user_id, allow=True)
         
         tag = TagModel.query.get_or_404(tag_list["tag_list"][0])
         learns = tag.learn
