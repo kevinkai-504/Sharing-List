@@ -134,7 +134,7 @@ export function User() {
                         </div>
                         <div class="card-body">
                             <div className='col'><h2>使用範例與資源:透過登入訪客帳號查閱(密碼皆輸入test即可)</h2></div>
-                            <div className='col'><h2>以下訪客帳號擇一登入</h2></div>
+                            <div className='col'><h2>以下訪客帳號擇一登入(由於伺服器自動待機，首次使用需等約30秒等待回應)</h2></div>
                             <div className='col'>說明_參考資源</div>
                             <div className='col'>說明_標籤系統</div>
                             <div className='col'>說明_路由</div>
