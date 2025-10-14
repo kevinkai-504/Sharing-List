@@ -1,9 +1,9 @@
 from flask import jsonify
 from flask.views import MethodView
-from flask_smorest import Blueprint
+from flask_smorest import Blueprint, abort
 from db import db
 from models import UserModel
-from schemas import UserSchema, UserFirstTimeSchema
+from schemas import UserSchema, UserFirstTimeSchema, CommentSchema
 
 # 使用者登入
 from passlib.hash import pbkdf2_sha256
@@ -18,6 +18,7 @@ from flask_jwt_extended import (
 )
 import os
 from lib.utils import Sub
+from sqlalchemy.exc import SQLAlchemyError
 
 
 blp = Blueprint("Users", __name__, description="Operations on users")
@@ -106,6 +107,28 @@ class UserList(MethodView):
         user = UserModel.query.all()
         return user
     
-
+@blp.route("/usercomment/<int:user_id>")
+class UserComment(MethodView):
+    @jwt_required()
+    @blp.arguments(CommentSchema)
+    @blp.response(200, CommentSchema)
+    def put(self, user_data, user_id):
+        user = UserModel.query.get(user_id)
+        Sub()
+        try:
+            user.comment = user_data['comment']
+            db.session.add(user)
+            db.session.commit()
+        except SQLAlchemyError:
+            abort(500, message="An error occurred when editing comment.")
+        return {'comment':user.comment}
+    
+    @jwt_required()
+    @blp.response(200, CommentSchema)
+    def get(self, user_id):
+        user = UserModel.query.get(user_id)
+        Sub(allow=True)
+        return {'comment':user.comment}
+        
 
 
