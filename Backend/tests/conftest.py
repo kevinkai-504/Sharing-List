@@ -71,7 +71,7 @@ def get_temp_account(login_as_admin_token, login_temp_account):
         if user["username"] == temp_uername:
             temp_user_id = user["id"]
     assert temp_user_id
-    data = {"username":temp_uername, "id":temp_user_id}
+    data = {"username":temp_uername, "id":temp_user_id, "access_token":data_temp_account["access_token"]}
 
     yield data
 
@@ -238,3 +238,19 @@ def initial_guest():
     if access_token and access_token != "None":
         logout_response = User().logout(APP_URL, access_token)
         assert logout_response.ok
+
+@pytest.fixture(scope="function")
+def get_usercomment(get_temp_account):
+    data = get_temp_account
+    access_token = data["access_token"]
+
+    response = User().get_comment(APP_URL, access_token)
+    assert response.status_code == 200
+    assert not response.json()['comment']
+
+    comment = "comment_temp"
+    response = User().put_comment(APP_URL, access_token, comment)
+    assert response.status_code == 200
+    assert response.json()['comment'] == comment
+
+    yield response.json()['comment']

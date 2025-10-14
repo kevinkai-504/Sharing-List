@@ -13,3 +13,6 @@ class UserModel(db.Model):
     learns = db.relationship("LearnModel", back_populates="user", lazy="dynamic", cascade="all, delete")
     tags = db.relationship("TagModel", back_populates="user", lazy="dynamic", cascade="all, delete")
 
+    # 新增每個使用者列表的操作說明等個人介紹
+    comment = db.Column(db.String())
+

@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main", "CICD" ] # push到main和CICD分支時觸發檢查
+    branches: [ "main", "db-comment" ] # push到main和其他分支時觸發檢查
 
 jobs:
   test:

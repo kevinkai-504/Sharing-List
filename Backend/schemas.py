@@ -45,6 +45,10 @@ class UserSchema(Schema):
 class UserFirstTimeSchema(UserSchema):
     key = fields.Str(required=True, load_only=True)
 
+# 各使用者的首頁說明欄
+class CommentSchema(Schema):
+    comment = fields.Str()
+
 
 
 

@@ -70,3 +70,8 @@ def test_guest_behave(initial_guest):
     assert not response.ok
     response = Tag().delete_link(APP_URL, access_token, learn_id=999, tag_id=999)
     assert not response.ok
+
+    response = User().get_comment(APP_URL, access_token)
+    assert response.ok
+    response = User().put_comment(APP_URL, access_token, comment="test_guest")
+    assert not response.ok

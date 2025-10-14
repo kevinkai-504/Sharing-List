@@ -7,6 +7,7 @@ class User:
         self.logout_url = "/logout"
         self.resgister_url = "/register"
         self.user_list_url = "/user"
+        self.comment_url = "/usercomment"
     def login(self, app_url, username, password):
         payload = {"username":username, "password":password}
         response = SESSION.post(f"{app_url}{self.login_url}", json=payload)
@@ -29,4 +30,13 @@ class User:
     def delete(self, app_url, access_token, user_id):
         request_header = build_request_headers(access_token)
         response = SESSION.delete(f"{app_url}{self.user_list_url}/{user_id}", headers=request_header)
+        return response
+    def get_comment(self, app_url, access_token):
+        request_header = build_request_headers(access_token)
+        response = SESSION.get(f"{app_url}{self.comment_url}", headers=request_header)
+        return response
+    def put_comment(self, app_url, access_token, comment):
+        request_header = build_request_headers(access_token)
+        payload = {"comment":comment}
+        response = SESSION.put(f"{app_url}{self.comment_url}", headers=request_header, json=payload)
         return response

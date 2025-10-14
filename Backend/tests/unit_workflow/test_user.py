@@ -100,7 +100,7 @@ def test_logout_secu_old_token(create_temp_account):
 
 # /user
 def test_get_users_func(get_temp_account):
-    LOG.debug(log_debug("get_users_func", "get", "user", "begin&result = {get_temp_account}"))
+    LOG.debug(log_debug("get_users_func", "get", "user", f"begin&result = {get_temp_account}"))
 
 def test_get_users_secu_notAdmin(login_temp_account):
     data = login_temp_account
@@ -110,6 +110,10 @@ def test_get_users_secu_notAdmin(login_temp_account):
     assert response.status_code != 200
     LOG.debug(log_debug("get_users_func", "get", "user", f"result = {response.json()}"))
 
+def test_usercomment_func(get_usercomment):
+    comment = get_usercomment
+    LOG.debug(f"comment = {comment}")
+
 def test_users_not_token():
     LOG.debug("users_not_token")
     response = User().logout(APP_URL, access_token=None)
@@ -117,4 +121,8 @@ def test_users_not_token():
     response = User().user_list(APP_URL, access_token=None)
     assert response.json()['error'] == "authorization_required"
     response = User().delete(APP_URL, access_token=None, user_id=999)
+    assert response.json()['error'] == "authorization_required"
+    response = User().get_comment(APP_URL, access_token=None)
+    assert response.json()['error'] == "authorization_required"
+    response = User().put_comment(APP_URL, access_token=None, comment="test_guest")
     assert response.json()['error'] == "authorization_required"
