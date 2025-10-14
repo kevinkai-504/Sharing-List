@@ -124,23 +124,25 @@ export function User() {
                     </div>
                     <div className="card text-bg-success bg-opacity-25">
                         <div className="card-body">
-                            <div className='col'><h2>網頁操作步驟</h2></div>
-                            <div className='col'>Step1: 註冊帳號(授權碼需詢問)</div>
-                            <div className='col'>Step2: 登入</div>
-                            <div className='col'>Step3: 於上方表格新增項目</div>
-                            <div className='col'>Step4: 點選'編輯'按鈕可分別更改項目參數</div>
-                            <div className='col'>Step5: 點選'標籤'按鈕能讓項目增添數個標籤，並可編輯標籤</div>
-                            <div className='col'>Step6: 按下'顯示標籤'可篩選下方列表顯示</div>
+                            <div className='col'><h2>網頁操作<span className="text-success fw-bold">步驟</span></h2></div>
+                            <div className='col'><span className="text-success fw-bold">Step1: 註冊帳號(授權碼需詢問)</span></div>
+                            <div className='col'><span className="text-success fw-bold">Step2: 登入</span></div>
+                            <div className='col'><span className="text-success fw-bold">Step3: 於上方表格新增項目</span></div>
+                            <div className='col'><span className="text-success fw-bold">Step4: 點選'編輯'按鈕可分別更改項目參數、'刪除'按鈕進行項目刪除</span></div>
+                            <div className='col'><span className="text-success fw-bold">Step5: 點選'標籤'按鈕能讓項目增添數個標籤，並可編輯標籤</span></div>
+                            <div className='col'><span className="text-success fw-bold">Step6: 按下'顯示標籤'可篩選下方列表顯示</span></div>
+                            <div className='col'><span className="text-success fw-bold">Step7: 按下'說明'可觀看該列表的說明與進行編輯</span></div>
+                            <div className='col'><span className="text-success fw-bold">Step8: 按下'登出'可順利登出</span></div>
                         </div>
                         <div className="card-body">
                             <div className='col'><h2>使用範例與資源:透過登入訪客帳號查閱(密碼皆輸入test即可)</h2></div>
-                            <div className='col'><h2>以下訪客帳號擇一登入(由於伺服器自動待機，首次使用需等約30秒等待回應)</h2></div>
-                            <div className='col'>說明_參考資源</div>
-                            <div className='col'>說明_標籤系統</div>
-                            <div className='col'>說明_路由</div>
-                            <div className='col'>範例_日本旅遊</div>
-                            <div className='col'>範例_日語學習</div>
-                            <div className='col'>範例_程式架構_pytest</div>
+                            <div className='col'><h2>以下<span className="text-primary fw-bold">訪客帳號</span>擇一登入(由於伺服器自動待機，首次使用需約<span className="text-danger">30秒等待回應</span>)</h2></div>
+                            <div className='col'><span className="text-primary fw-bold">說明_參考資源</span></div>
+                            <div className='col'><span className="text-primary fw-bold">說明_標籤系統</span></div>
+                            <div className='col'><span className="text-primary fw-bold">說明_路由</span></div>
+                            <div className='col'><span className="text-primary fw-bold">範例_日本旅遊</span></div>
+                            <div className='col'><span className="text-primary fw-bold">範例_日語學習</span></div>
+                            <div className='col'><span className="text-primary fw-bold">範例_程式架構_pytest</span></div>
                         </div>
                     </div>
                 </div>

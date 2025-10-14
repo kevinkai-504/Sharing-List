@@ -71,15 +71,28 @@ export function Comment_Text({accesstoken}) {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="container">
-                        <form onSubmit={changecomment}>
-                            {iscommentchange && 
-                                <label className="form-label text-danger">已變更為{comment}!!</label>
-                            }
-                            <div className="input-group">
-                                <input onChange={(e) => setComment(e.target.value)} value={comment}  type="text"  className="form-control"/>
+                        <div className="row row-cols-1 gy-5">
+                            <form onSubmit={changecomment}>
+                                {iscommentchange && 
+                                    <label className="form-label text-danger">已變更為{comment}!!</label>
+                                }
+                                <div className="input-group">
+                                    <input onChange={(e) => setComment(e.target.value)} value={comment}  type="text"  className="form-control"/>
+                                </div>
+                                <button className="btn btn-info" type="submit">變更</button>
+                            </form>
+                            <div className="card-body">
+                                <div className='col'><h2>網頁操作<span className="text-success fw-bold">步驟</span></h2></div>
+                                <div className='col'><span className="text-success fw-bold">Step1: 註冊帳號(授權碼需詢問)</span></div>
+                                <div className='col'><span className="text-success fw-bold">Step2: 登入</span></div>
+                                <div className='col'><span className="text-success fw-bold">Step3: 於上方表格新增項目</span></div>
+                                <div className='col'><span className="text-success fw-bold">Step4: 點選'編輯'按鈕可分別更改項目參數、'刪除'按鈕進行項目刪除</span></div>
+                                <div className='col'><span className="text-success fw-bold">Step5: 點選'標籤'按鈕能讓項目增添數個標籤，並可編輯標籤</span></div>
+                                <div className='col'><span className="text-success fw-bold">Step6: 按下'顯示標籤'可篩選下方列表顯示</span></div>
+                                <div className='col'><span className="text-success fw-bold">Step7: 按下'說明'可觀看該列表的說明與進行編輯</span></div>
+                                <div className='col'><span className="text-success fw-bold">Step8: 按下'登出'可順利登出</span></div>
                             </div>
-                            <button className="btn btn-success" type="submit">變更</button>
-                        </form>
+                        </div>
                     </div>
                 </Modal.Body>
             </Modal>
