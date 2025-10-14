@@ -5,9 +5,13 @@ import Modal from 'react-bootstrap/Modal';
 
 export function Comment_Text({accesstoken}) {
     const [comment, setComment] = useState("說明欄待補充")
+    const [iscommentchange, setIscommentchange] = useState(false)
     // Modal
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setIscommentchange(false)
+    }
     const handleShow = () => setShow(true);
 
     useEffect(() => {
@@ -47,8 +51,10 @@ export function Comment_Text({accesstoken}) {
         const data = await response.json()
         if (response.status !== 200) {
             alert(data.message)
+            setIscommentchange(false)
         } else {
             setComment(data['comment'])
+            setIscommentchange(true)
         }
     }
 
@@ -66,6 +72,9 @@ export function Comment_Text({accesstoken}) {
                 <Modal.Body>
                     <div className="container">
                         <form onSubmit={changecomment}>
+                            {iscommentchange && 
+                                <label className="form-label text-danger">已變更為{comment}!!</label>
+                            }
                             <div className="input-group">
                                 <input onChange={(e) => setComment(e.target.value)} value={comment}  type="text"  className="form-control"/>
                             </div>

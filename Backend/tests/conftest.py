@@ -243,7 +243,6 @@ def initial_guest():
 def get_usercomment(get_temp_account):
     data = get_temp_account
     access_token = data["access_token"]
-    user_id = data["id"]
 
     response = User().get_comment(APP_URL, access_token)
     assert response.status_code == 200
