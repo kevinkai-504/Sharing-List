@@ -122,3 +122,7 @@ def test_users_not_token():
     assert response.json()['error'] == "authorization_required"
     response = User().delete(APP_URL, access_token=None, user_id=999)
     assert response.json()['error'] == "authorization_required"
+    response = User().get_comment(APP_URL, access_token=None)
+    assert response.json()['error'] == "authorization_required"
+    response = User().put_comment(APP_URL, access_token=None, comment="test_guest")
+    assert response.json()['error'] == "authorization_required"
