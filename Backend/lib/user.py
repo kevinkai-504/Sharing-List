@@ -31,12 +31,12 @@ class User:
         request_header = build_request_headers(access_token)
         response = SESSION.delete(f"{app_url}{self.user_list_url}/{user_id}", headers=request_header)
         return response
-    def get_comment(self, app_url, access_token, user_id):
+    def get_comment(self, app_url, access_token):
         request_header = build_request_headers(access_token)
-        response = SESSION.get(f"{app_url}{self.comment_url}/{user_id}", headers=request_header)
+        response = SESSION.get(f"{app_url}{self.comment_url}", headers=request_header)
         return response
-    def put_comment(self, app_url, access_token, user_id, comment):
+    def put_comment(self, app_url, access_token, comment):
         request_header = build_request_headers(access_token)
         payload = {"comment":comment}
-        response = SESSION.put(f"{app_url}{self.comment_url}/{user_id}", headers=request_header, json=payload)
+        response = SESSION.put(f"{app_url}{self.comment_url}", headers=request_header, json=payload)
         return response

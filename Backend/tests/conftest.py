@@ -245,12 +245,12 @@ def get_usercomment(get_temp_account):
     access_token = data["access_token"]
     user_id = data["id"]
 
-    response = User().get_comment(APP_URL, access_token, user_id)
+    response = User().get_comment(APP_URL, access_token)
     assert response.status_code == 200
     assert not response.json()['comment']
 
     comment = "comment_temp"
-    response = User().put_comment(APP_URL, access_token, user_id, comment)
+    response = User().put_comment(APP_URL, access_token, comment)
     assert response.status_code == 200
     assert response.json()['comment'] == comment
 

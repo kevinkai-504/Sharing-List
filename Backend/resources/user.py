@@ -107,14 +107,13 @@ class UserList(MethodView):
         user = UserModel.query.all()
         return user
     
-@blp.route("/usercomment/<int:user_id>")
+@blp.route("/usercomment")
 class UserComment(MethodView):
     @jwt_required()
     @blp.arguments(CommentSchema)
     @blp.response(200, CommentSchema)
-    def put(self, user_data, user_id):
-        user = UserModel.query.get(user_id)
-        Sub()
+    def put(self, user_data):
+        user = UserModel.query.get(int(Sub()))
         try:
             user.comment = user_data['comment']
             db.session.add(user)
@@ -125,9 +124,8 @@ class UserComment(MethodView):
     
     @jwt_required()
     @blp.response(200, CommentSchema)
-    def get(self, user_id):
-        user = UserModel.query.get(user_id)
-        Sub(allow=True)
+    def get(self):
+        user = UserModel.query.get(int(Sub(allow=True)))
         return {'comment':user.comment}
         
 
