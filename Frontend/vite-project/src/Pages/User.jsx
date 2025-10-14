@@ -122,8 +122,8 @@ export function User() {
                             </div>
                         </div>
                     </div>
-                    <div class="card text-bg-success bg-opacity-25">
-                        <div class="card-body">
+                    <div className="card text-bg-success bg-opacity-25">
+                        <div className="card-body">
                             <div className='col'><h2>網頁操作步驟</h2></div>
                             <div className='col'>Step1: 註冊帳號(授權碼需詢問)</div>
                             <div className='col'>Step2: 登入</div>
@@ -132,7 +132,7 @@ export function User() {
                             <div className='col'>Step5: 點選'標籤'按鈕能讓項目增添數個標籤，並可編輯標籤</div>
                             <div className='col'>Step6: 按下'顯示標籤'可篩選下方列表顯示</div>
                         </div>
-                        <div class="card-body">
+                        <div className="card-body">
                             <div className='col'><h2>使用範例與資源:透過登入訪客帳號查閱(密碼皆輸入test即可)</h2></div>
                             <div className='col'><h2>以下訪客帳號擇一登入(由於伺服器自動待機，首次使用需等約30秒等待回應)</h2></div>
                             <div className='col'>說明_參考資源</div>

@@ -84,7 +84,7 @@ export function LearnList({}) {
 
   return (
     <>
-      <Navbar />
+      <Navbar accesstoken={accesstoken}/>
       {/* {accesstoken} */}
       <div className='container'>
         <div className="row row-cols-1 gy-5">

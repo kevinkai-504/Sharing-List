@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { Comment_Text } from "./Comment_Text";
 
-export function Navbar() {
+export function Navbar({accesstoken}) {
 
 
     const clearAccess = () => {
@@ -13,6 +14,7 @@ export function Navbar() {
             <Link to='/'>
                 <button className="btn btn-dark" onClick={clearAccess}>登出</button>
             </Link>
+            <Comment_Text accesstoken={accesstoken}/>
         </>
     )
 }
